@@ -1,8 +1,20 @@
-# BudgetWise - Build Guide
+# 🔨 BudgetWise Android Build Guide
+
+Complete guide for building, signing, and distributing the BudgetWise Android application.
 
 ## 📋 Overview
 
 BudgetWise is a native Android personal finance management application built with Java. This guide provides comprehensive instructions for setting up the development environment, building the application, and deploying it.
+
+## 🎯 Quick Start
+
+**TL;DR**: Download ready-to-install APKs from [GitHub Releases](https://github.com/hetpatel748/BudgetWise/releases)
+
+### APK Status
+✅ **Debug APK**: 8.8MB (signed, installable)  
+✅ **Release APK**: 6.4MB (signed, installable)  
+✅ **GitHub Actions**: Automated builds working  
+✅ **APK Signing**: Fixed and properly configured
 
 ## 🛠️ Prerequisites
 
@@ -284,13 +296,110 @@ defaultConfig {
 - [ProGuard Manual](https://www.guardsquare.com/manual/configuration)
 - [Material Design Guidelines](https://material.io/design)
 
+## 🔐 APK Signing Troubleshooting
+
+### ❌ Common APK Installation Errors
+
+#### "App not installed as package appears to be invalid"
+
+**Root Cause**: APK is unsigned or corrupted  
+**Solution**: 
+```bash
+# Verify APK is signed
+jarsigner -verify -verbose app/build/outputs/apk/release/app-release.apk
+
+# If unsigned, rebuild with proper signing
+./gradlew clean assembleRelease
+```
+
+#### "INSTALL_FAILED_UPDATE_INCOMPATIBLE"
+
+**Root Cause**: Different signing keys between installed and new APK  
+**Solution**: 
+```bash
+# Uninstall existing app first
+adb uninstall com.budgetwise.app
+
+# Then install new APK
+adb install app/build/outputs/apk/release/app-release.apk
+```
+
+#### "INSTALL_FAILED_INVALID_APK"
+
+**Root Cause**: APK file corruption or invalid format  
+**Solution**: 
+```bash
+# Check APK integrity
+aapt dump badging app/build/outputs/apk/release/app-release.apk
+
+# Rebuild if corrupted
+./gradlew clean assembleRelease
+```
+
+### ✅ APK Verification Commands
+
+```bash
+# Check APK signature
+jarsigner -verify -verbose -certs app-release.apk
+
+# View APK contents
+aapt dump badging app-release.apk
+
+# Check APK size and compression
+unzip -l app-release.apk
+
+# Verify APK can be parsed
+aapt dump xmltree app-release.apk AndroidManifest.xml
+```
+
+### 🔧 Signing Configuration Fix
+
+If you encounter signing issues, ensure your `app/build.gradle` has:
+
+```gradle
+android {
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+}
+```
+
+### 🛡️ Security Best Practices
+
+1. **Never commit keystores** to version control
+2. **Use different keystores** for debug and release
+3. **Store production keystores** securely
+4. **Backup keystores** - losing them means you can't update your app
+5. **Use strong passwords** for production keystores
+
 ## 🆘 Support
 
 For build issues or questions:
 1. Check this documentation
-2. Review GitHub Issues
-3. Check Android Developer documentation
-4. Create a new issue with detailed error logs
+2. Review [GitHub Issues](https://github.com/hetpatel748/BudgetWise/issues)
+3. Check [GitHub Actions logs](https://github.com/hetpatel748/BudgetWise/actions)
+4. Check Android Developer documentation
+5. Create a new issue with detailed error logs
 
 ---
 
