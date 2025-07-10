@@ -45,6 +45,10 @@ jobs:
     - name: Accept Android SDK licenses
       run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
       
+    - name: Create Debug Keystore
+      run: |
+        keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+        
     - name: Build debug APK
       run: ./gradlew assembleDebug --stacktrace
       
@@ -67,7 +71,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: release-apk
-        path: app/build/outputs/apk/release/app-release-unsigned.apk
+        path: app/build/outputs/apk/release/app-release.apk
         
     - name: Upload lint reports
       uses: actions/upload-artifact@v4
@@ -173,4 +177,4 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          ./app-release-unsigned.apk
+          ./app-release.apk
