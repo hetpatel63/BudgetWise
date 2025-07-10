@@ -162,14 +162,14 @@
     <string name="empty_analytics">📈</string>
     
     <!-- Insights -->
-    <string name="insight_top_category">Your highest spending category this month is %s ($%.2f)</string>
-    <string name="insight_category_percentage">%s represents %.1f%% of your spending. Consider reviewing this category.</string>
-    <string name="insight_spending_trend">Your spending has %s by %.1f%% compared to last week</string>
-    <string name="insight_budget_exceeded">⚠️ You\'ve exceeded your %s budget by $%.2f</string>
-    <string name="insight_budget_warning">⚠️ You\'ve used %.1f%% of your %s budget</string>
-    <string name="insight_budget_info">You\'ve used %.1f%% of your %s budget</string>
-    <string name="insight_large_expense">Large expense detected: $%.2f for %s</string>
-    <string name="insight_budget_suggestion">Consider setting a budget of $%.2f for %s</string>
+    <string name="insight_top_category">Your highest spending category this month is %1$s ($%2$.2f)</string>
+    <string name="insight_category_percentage">%1$s represents %2$.1f%% of your spending. Consider reviewing this category.</string>
+    <string name="insight_spending_trend">Your spending has %1$s by %2$.1f%% compared to last week</string>
+    <string name="insight_budget_exceeded">⚠️ You\'ve exceeded your %1$s budget by $%2$.2f</string>
+    <string name="insight_budget_warning">⚠️ You\'ve used %1$.1f%% of your %2$s budget</string>
+    <string name="insight_budget_info">You\'ve used %1$.1f%% of your %2$s budget</string>
+    <string name="insight_large_expense">Large expense detected: $%1$.2f for %2$s</string>
+    <string name="insight_budget_suggestion">Consider setting a budget of $%1$.2f for %2$s</string>
     
     <!-- Accessibility -->
     <string name="accessibility_balance_card">Balance overview card</string>

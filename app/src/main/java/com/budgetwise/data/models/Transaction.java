@@ -1,9 +1,11 @@
 package com.budgetwise.data.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public class Transaction {
+public class Transaction implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String id;
     private double amount;
     private String description;

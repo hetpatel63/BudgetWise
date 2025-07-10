@@ -13,45 +13,35 @@ A secure, offline personal finance manager with AI-powered insights built with J
 - 📈 **Budget Tracking** - Set and monitor spending limits
 - 🔔 **Smart Notifications** - Budget alerts and reminders
 
-## Build Requirements
+## 🚀 Quick Start
 
-- **Android Studio** Arctic Fox or newer
-- **JDK 8** or higher
-- **Android SDK** with API level 34
-- **Gradle 8.2** or higher
+### Download APK
+- **Latest Release**: [Download from GitHub Releases](https://github.com/hetpatel748/BudgetWise/releases)
+- **Debug Build**: Available in GitHub Actions artifacts
+- **Minimum Android**: 7.0 (API 24)
+- **Target Android**: 14 (API 34)
 
-## Setup Instructions
+### Build from Source
 
-1. **Clone the repository**
-   \`\`\`bash
-   git clone https://github.com/yourusername/budgetwise-android.git
-   cd budgetwise-android
-   \`\`\`
+#### Prerequisites
+- **Java JDK**: 17 (recommended) or 11
+- **Android SDK**: API level 34 with build-tools 34.0.0
+- **Git**: For cloning the repository
 
-2. **Configure Android SDK**
-   - Copy `local.properties.template` to `local.properties`
-   - Update the `sdk.dir` path to your Android SDK location
-   ```properties
-   sdk.dir=/path/to/your/Android/Sdk
-   \`\`\`
+#### Quick Build
+```bash
+git clone https://github.com/hetpatel748/BudgetWise.git
+cd BudgetWise
+echo "sdk.dir=/path/to/android-sdk" > local.properties
+chmod +x gradlew
+./gradlew assembleDebug
+```
 
-3. **Build the project**
-   \`\`\`bash
-   # Debug build
-   ./gradlew assembleDebug
-   
-   # Release build
-   ./gradlew assembleRelease
-   \`\`\`
+#### Build Results
+- **Debug APK**: `app/build/outputs/apk/debug/app-debug.apk` (~8.3MB)
+- **Release APK**: `app/build/outputs/apk/release/app-release-unsigned.apk` (~3.1MB)
 
-4. **Install on device**
-   \`\`\`bash
-   # Install debug APK
-   ./gradlew installDebug
-   
-   # Or install release APK
-   ./gradlew installRelease
-   \`\`\`
+📖 **Detailed build instructions**: See [BUILD.md](BUILD.md)
 
 ## Project Structure
 

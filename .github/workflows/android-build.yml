@@ -1,0 +1,160 @@
+name: Android CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Accept Android SDK licenses
+      run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+      
+    - name: Build debug APK
+      run: ./gradlew assembleDebug --stacktrace
+      
+    - name: Build release APK
+      run: ./gradlew assembleRelease --stacktrace
+      
+    - name: Run lint checks
+      run: ./gradlew lint
+      
+    - name: Run unit tests
+      run: ./gradlew testDebugUnitTest --continue
+      
+    - name: Upload debug APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: debug-apk
+        path: app/build/outputs/apk/debug/app-debug.apk
+        
+    - name: Upload release APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-apk
+        path: app/build/outputs/apk/release/app-release-unsigned.apk
+        
+    - name: Upload lint reports
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: lint-reports
+        path: app/build/reports/lint-results-*.html
+        
+    - name: Upload test reports
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-reports
+        path: app/build/reports/tests/
+        
+    - name: Build summary
+      if: always()
+      run: |
+        echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "### APK Files Generated:" >> $GITHUB_STEP_SUMMARY
+        echo "- Debug APK: $(ls -lh app/build/outputs/apk/debug/app-debug.apk 2>/dev/null || echo 'Not found')" >> $GITHUB_STEP_SUMMARY
+        echo "- Release APK: $(ls -lh app/build/outputs/apk/release/app-release-unsigned.apk 2>/dev/null || echo 'Not found')" >> $GITHUB_STEP_SUMMARY
+        echo "### Build Configuration:" >> $GITHUB_STEP_SUMMARY
+        echo "- Java Version: $(java -version 2>&1 | head -1)" >> $GITHUB_STEP_SUMMARY
+        echo "- Gradle Version: $(./gradlew --version | grep Gradle)" >> $GITHUB_STEP_SUMMARY
+        echo "- Android SDK: $ANDROID_HOME" >> $GITHUB_STEP_SUMMARY
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download release APK
+      uses: actions/download-artifact@v3
+      with:
+        name: release-apk
+        path: ./
+        
+    - name: Get version from gradle
+      id: get_version
+      run: |
+        VERSION=$(grep "versionName" app/build.gradle | cut -d'"' -f2)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_version.outputs.tag }}
+        release_name: BudgetWise ${{ steps.get_version.outputs.version }}
+        body: |
+          ## BudgetWise ${{ steps.get_version.outputs.version }}
+          
+          ### What's New
+          - Personal finance management app
+          - Transaction tracking and categorization
+          - Budget management with analytics
+          - Secure data encryption (AES-256)
+          - Biometric authentication support
+          - Material 3 design
+          
+          ### Installation
+          1. Download the APK file below
+          2. Enable "Install from unknown sources" in your Android settings
+          3. Install the APK file
+          
+          ### Technical Details
+          - **Minimum Android Version**: Android 7.0 (API 24)
+          - **Target Android Version**: Android 14 (API 34)
+          - **APK Size**: ~3.1MB (optimized with ProGuard)
+          - **Permissions**: Storage, Notifications, Biometric
+          
+          ### Security
+          - All financial data is encrypted using AES-256
+          - Biometric authentication for app access
+          - No data is transmitted to external servers
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release APK
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./app-release-unsigned.apk
+        asset_name: BudgetWise-${{ steps.get_version.outputs.version }}.apk
+        asset_content_type: application/vnd.android.package-archive

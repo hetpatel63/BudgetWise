@@ -79,6 +79,9 @@
     public static int e(...);
 }
 
+# Suppress warnings for missing classes
+-dontwarn javax.annotation.Nullable
+
 # Optimize and obfuscate
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
 -optimizationpasses 5

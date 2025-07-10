@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toStartOf="@id/text_date"
         app:layout_constraintStart_toEndOf="@id/category_indicator"
         app:layout_constraintTop_toBottomOf="@id/text_description"
-        tools:text="Food & Dining" />
+        tools:text="Food &amp; Dining" />
 
     <TextView
         android:id="@+id/text_amount"
@@ -58,8 +58,22 @@
         android:layout_marginTop="4dp"
         android:textAppearance="?attr/textAppearanceBodySmall"
         android:textColor="?attr/colorOnSurfaceVariant"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/icon_recurring"
         app:layout_constraintTop_toBottomOf="@id/text_amount"
         tools:text="Dec 15" />
+
+    <ImageView
+        android:id="@+id/icon_recurring"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/ic_notification"
+        android:contentDescription="Recurring transaction"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_date"
+        app:layout_constraintBottom_toBottomOf="@id/text_date"
+        app:tint="?attr/colorOnSurfaceVariant"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

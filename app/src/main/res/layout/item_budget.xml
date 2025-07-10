@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toStartOf="@id/text_budget_amount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Food & Dining" />
+            tools:text="Food &amp; Dining" />
 
         <TextView
             android:id="@+id/text_budget_amount"

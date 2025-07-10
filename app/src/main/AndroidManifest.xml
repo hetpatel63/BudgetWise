@@ -33,6 +33,10 @@
             android:name=".ui.onboarding.OnboardingActivity"
             android:theme="@style/Theme.BudgetWise.Fullscreen" />
 
+        <activity
+            android:name=".ui.settings.backup.BackupActivity"
+            android:theme="@style/Theme.BudgetWise" />
+
     </application>
 
 </manifest>
