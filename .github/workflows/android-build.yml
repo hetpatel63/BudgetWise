@@ -108,7 +108,13 @@ jobs:
     - name: Get version from gradle
       id: get_version
       run: |
-        VERSION=$(grep "versionName" app/build.gradle | cut -d'"' -f2)
+        # Extract base version from defaultConfig (without build type suffixes)
+        VERSION=$(grep -A 10 "defaultConfig" app/build.gradle | grep "versionName" | cut -d'"' -f2)
+        if [ -z "$VERSION" ]; then
+          echo "Error: Could not extract version from build.gradle"
+          exit 1
+        fi
+        echo "Extracted version: $VERSION"
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "tag=v$VERSION" >> $GITHUB_OUTPUT
         
