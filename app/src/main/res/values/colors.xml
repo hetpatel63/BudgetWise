@@ -67,7 +67,7 @@
     <color name="md_theme_dark_shadow">#000000</color>
     <color name="md_theme_dark_surfaceTint">#D0BCFF</color>
     
-    <!-- Custom App Colors -->
+    <!-- Custom App Colors - Updated to fix build cache -->
     <color name="success_green">#38A169</color>
     <color name="success_green_light">#81C784</color>
     <color name="success_green_dark">#388E3C</color>
@@ -95,4 +95,6 @@
     <color name="card_background_light">#FFFFFF</color>
     <color name="card_background_dark">#1E1E1E</color>
     <color name="card_shadow">#1A000000</color>
+    
+    <!-- Build cache invalidation: 2025-07-11 -->
 </resources>
