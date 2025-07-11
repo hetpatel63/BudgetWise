@@ -53,6 +53,12 @@ captures/
 *.jks
 *.keystore
 
+# Keystore related files (NEVER commit these)
+budgetwise-release-key.jks
+keystore-base64.txt
+keystore-info.md
+debug.keystore
+
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 .cxx/

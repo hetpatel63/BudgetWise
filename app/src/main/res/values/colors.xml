@@ -64,10 +64,9 @@
     <color name="md_theme_dark_surfaceTint">#D0BCFF</color>
     
     <!-- Custom colors -->
-    <color name="success_green">#4CAF50</color>
+    <color name="success_green">#38A169</color>
     <color name="success_green_light">#81C784</color>
     <color name="success_green_dark">#388E3C</color>
-    <color name="success_green">#38A169</color>
     <color name="error_red">#E53E3E</color>
     <color name="error_red_light">#EF5350</color>
     <color name="error_red_dark">#C62828</color>

@@ -108,6 +108,14 @@ public class AddTransactionDialogFragment extends BottomSheetDialogFragment {
         binding.buttonSave.setOnClickListener(v -> saveTransaction());
         binding.buttonCancel.setOnClickListener(v -> dismiss());
         
+        // Delete button - only show when editing
+        if (editingTransaction != null) {
+            binding.buttonDelete.setVisibility(View.VISIBLE);
+            binding.buttonDelete.setOnClickListener(v -> showDeleteConfirmationDialog());
+        } else {
+            binding.buttonDelete.setVisibility(View.GONE);
+        }
+        
         // Auto-categorize button
         binding.buttonAutoCategorize.setOnClickListener(v -> {
             String description = binding.editTextDescription.getText().toString().trim();
@@ -226,6 +234,25 @@ public class AddTransactionDialogFragment extends BottomSheetDialogFragment {
                 dismiss();
             })
             .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    private void showDeleteConfirmationDialog() {
+        if (editingTransaction == null) return;
+        
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Delete Transaction")
+            .setMessage("Are you sure you want to delete this transaction?\n\n" + 
+                       editingTransaction.getDescription() + "\n" +
+                       String.format("$%.2f", editingTransaction.getAmount()))
+            .setPositiveButton("Delete", (dialog, which) -> {
+                BudgetWiseApplication.getInstance().getBudgetRepository().deleteTransaction(editingTransaction.getId());
+                Snackbar.make(requireActivity().findViewById(android.R.id.content), 
+                    "Transaction deleted", Snackbar.LENGTH_SHORT).show();
+                dismiss();
+            })
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
             .show();
     }
 
