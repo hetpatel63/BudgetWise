@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@drawable/card_elevated">
 
     <TextView
         android:id="@+id/text_title"
@@ -13,15 +14,15 @@
         android:text="Add Transaction"
         android:textAppearance="?attr/textAppearanceHeadlineSmall"
         android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
         android:layout_marginBottom="24dp" />
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.BudgetWise.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Description"
-        app:boxStrokeColor="?attr/colorPrimary"
-        app:hintTextColor="?attr/colorPrimary">
+        android:hint="Description">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_description"
@@ -38,13 +39,12 @@
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.BudgetWise.TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:hint="Amount"
-            app:boxStrokeColor="?attr/colorPrimary"
-            app:hintTextColor="?attr/colorPrimary"
             app:prefixText="$">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -55,12 +55,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinner_type"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:hint="Type">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -70,39 +79,47 @@
         android:orientation="horizontal"
         android:layout_marginBottom="16dp">
 
-        <Spinner
-            android:id="@+id/spinner_category"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:hint="Category">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_auto_categorize"
+            style="@style/Widget.BudgetWise.Button.Outlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Auto"
-            android:textSize="12sp"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_select_date"
+        style="@style/Widget.BudgetWise.Button.Outlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Select Date"
-        style="@style/Widget.Material3.Button.OutlinedButton"
         app:icon="@drawable/ic_calendar_24" />
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.BudgetWise.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Notes (Optional)"
-        app:boxStrokeColor="?attr/colorPrimary"
-        app:hintTextColor="?attr/colorPrimary">
+        android:hint="Notes (Optional)">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_notes"
@@ -118,7 +135,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Recurring Transaction" />
+        android:text="Recurring Transaction"
+        android:textAppearance="?attr/textAppearanceBodyLarge" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,14 +146,15 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_cancel"
+            style="@style/Widget.BudgetWise.Button.Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Cancel"
-            style="@style/Widget.Material3.Button.TextButton" />
+            android:text="Cancel" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_save"
+            style="@style/Widget.BudgetWise.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save" />

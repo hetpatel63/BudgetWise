@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.budgetwise.data.models.Transaction;
 import com.budgetwise.databinding.ItemTransactionBinding;
+import com.budgetwise.ui.animations.AnimationUtils;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class RecentTransactionAdapter extends ListAdapter<Transaction, RecentTransactionAdapter.TransactionViewHolder> {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd", Locale.getDefault());
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
 
     public RecentTransactionAdapter() {
         super(DIFF_CALLBACK);
@@ -55,9 +57,14 @@ public class RecentTransactionAdapter extends ListAdapter<Transaction, RecentTra
         }
 
         void bind(Transaction transaction) {
+            // Set transaction icon based on category
+            String icon = getTransactionIcon(transaction.getCategory(), transaction.getType());
+            binding.iconTransaction.setText(icon);
+            
             binding.textDescription.setText(transaction.getDescription());
             binding.textCategory.setText(transaction.getCategory());
             binding.textDate.setText(dateFormat.format(transaction.getDate()));
+            binding.textTime.setText(timeFormat.format(transaction.getDate()));
             
             // Format amount based on transaction type
             String amountText;
@@ -84,6 +91,38 @@ public class RecentTransactionAdapter extends ListAdapter<Transaction, RecentTra
             
             binding.textAmount.setText(amountText);
             binding.textAmount.setTextColor(amountColor);
+            
+            // Show recurring indicator with animation
+            if (transaction.isRecurring()) {
+                binding.iconRecurring.setVisibility(android.view.View.VISIBLE);
+                AnimationUtils.pulse(binding.iconRecurring);
+            } else {
+                binding.iconRecurring.setVisibility(android.view.View.GONE);
+            }
+            
+            // Add click animation
+            binding.getRoot().setOnClickListener(v -> AnimationUtils.pulse(v));
+        }
+        
+        private String getTransactionIcon(String category, Transaction.TransactionType type) {
+            if (type == Transaction.TransactionType.INCOME) {
+                return "💰";
+            }
+            
+            switch (category.toLowerCase()) {
+                case "food & dining": return "🍽️";
+                case "transportation": return "🚗";
+                case "entertainment": return "🎬";
+                case "shopping": return "🛒";
+                case "healthcare": return "🏥";
+                case "housing": return "🏠";
+                case "bills & utilities": return "💡";
+                case "education": return "📚";
+                case "travel": return "✈️";
+                case "personal care": return "💄";
+                case "gifts": return "🎁";
+                default: return "💸";
+            }
         }
     }
 }

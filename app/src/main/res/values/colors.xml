@@ -64,8 +64,34 @@
     <color name="md_theme_dark_surfaceTint">#D0BCFF</color>
     
     <!-- Custom colors -->
+    <color name="success_green">#4CAF50</color>
+    <color name="success_green_light">#81C784</color>
+    <color name="success_green_dark">#388E3C</color>
     <color name="success_green">#38A169</color>
     <color name="error_red">#E53E3E</color>
+    <color name="error_red_light">#EF5350</color>
+    <color name="error_red_dark">#C62828</color>
     <color name="warning_orange">#DD6B20</color>
+    <color name="warning_orange_light">#FF9800</color>
+    <color name="warning_orange_dark">#F57C00</color>
     <color name="info_blue">#3182CE</color>
+    <color name="info_blue_light">#42A5F5</color>
+    <color name="info_blue_dark">#1976D2</color>
+    
+    <!-- Gradient colors -->
+    <color name="gradient_start">#667eea</color>
+    <color name="gradient_end">#764ba2</color>
+    <color name="income_gradient_start">#11998e</color>
+    <color name="income_gradient_end">#38ef7d</color>
+    <color name="expense_gradient_start">#fc4a1a</color>
+    <color name="expense_gradient_end">#f7b733</color>
+    
+    <!-- Shimmer colors -->
+    <color name="shimmer_base">#F0F0F0</color>
+    <color name="shimmer_highlight">#FFFFFF</color>
+    
+    <!-- Card colors -->
+    <color name="card_background_light">#FFFFFF</color>
+    <color name="card_background_dark">#1E1E1E</color>
+    <color name="card_shadow">#1A000000</color>
 </resources>

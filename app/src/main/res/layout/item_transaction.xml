@@ -1,79 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:padding="16dp">
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    android:foreground="@drawable/ripple_effect"
+    app:cardBackgroundColor="?attr/colorSurface">
 
-    <View
-        android:id="@+id/category_indicator"
-        android:layout_width="4dp"
-        android:layout_height="0dp"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_description"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/text_amount"
-        app:layout_constraintStart_toEndOf="@id/category_indicator"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Starbucks Coffee" />
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/text_category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
-        android:textAppearance="?attr/textAppearanceBodyMedium"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        app:layout_constraintEnd_toStartOf="@id/text_date"
-        app:layout_constraintStart_toEndOf="@id/category_indicator"
-        app:layout_constraintTop_toBottomOf="@id/text_description"
-        tools:text="Food &amp; Dining" />
+        <!-- Transaction Icon -->
+        <TextView
+            android:id="@+id/icon_transaction"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="🛒"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:background="@drawable/card_elevated"
+            android:backgroundTint="?attr/colorSecondaryContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    <TextView
-        android:id="@+id/text_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="-$4.50" />
+        <TextView
+            android:id="@+id/text_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toStartOf="@id/layout_amount"
+            app:layout_constraintStart_toEndOf="@id/icon_transaction"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Starbucks Coffee" />
 
-    <TextView
-        android:id="@+id/text_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textAppearance="?attr/textAppearanceBodySmall"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        app:layout_constraintEnd_toStartOf="@id/icon_recurring"
-        app:layout_constraintTop_toBottomOf="@id/text_amount"
-        tools:text="Dec 15" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toStartOf="@id/layout_amount"
+            app:layout_constraintStart_toEndOf="@id/icon_transaction"
+            app:layout_constraintTop_toBottomOf="@id/text_description">
 
-    <ImageView
-        android:id="@+id/icon_recurring"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="4dp"
-        android:src="@drawable/ic_notification"
-        android:contentDescription="Recurring transaction"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/text_date"
-        app:layout_constraintBottom_toBottomOf="@id/text_date"
-        app:tint="?attr/colorOnSurfaceVariant"
-        tools:visibility="visible" />
+            <TextView
+                android:id="@+id/text_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorPrimary"
+                android:background="@drawable/card_elevated"
+                android:backgroundTint="?attr/colorPrimaryContainer"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                tools:text="Food & Dining" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Dec 15" />
+
