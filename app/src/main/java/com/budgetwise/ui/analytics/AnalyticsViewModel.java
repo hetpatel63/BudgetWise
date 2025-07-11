@@ -5,7 +5,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 import com.budgetwise.data.models.Transaction;
 import com.budgetwise.data.repository.BudgetRepository;
-import com.budgetwise.ml.LocalIntelligenceService;
+import com.budgetwise.ai.EnhancedIntelligenceService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class AnalyticsViewModel extends ViewModel {
     private final BudgetRepository repository;
-    private final LocalIntelligenceService intelligenceService;
+    private final EnhancedIntelligenceService intelligenceService;
     
     private final MediatorLiveData<Map<String, Double>> categorySpending = new MediatorLiveData<>();
     private final MediatorLiveData<Map<String, Double>> monthlySpending = new MediatorLiveData<>();
@@ -26,7 +26,7 @@ public class AnalyticsViewModel extends ViewModel {
         INCREASING, DECREASING, STABLE
     }
 
-    public AnalyticsViewModel(BudgetRepository repository, LocalIntelligenceService intelligenceService) {
+    public AnalyticsViewModel(BudgetRepository repository, EnhancedIntelligenceService intelligenceService) {
         this.repository = repository;
         this.intelligenceService = intelligenceService;
         setupMediators();

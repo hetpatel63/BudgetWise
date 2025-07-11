@@ -176,4 +176,20 @@
     <string name="accessibility_budget_progress">Budget progress for %s</string>
     <string name="accessibility_transaction_item">Transaction: %s</string>
     <string name="accessibility_chart">Spending chart</string>
+    
+    <!-- AI Features -->
+    <string name="ai_intelligence_settings">AI Intelligence Settings</string>
+    <string name="ai_notifications">AI Notifications</string>
+    <string name="budget_alerts">Budget Alerts</string>
+    <string name="weekly_summaries">Weekly Summaries</string>
+    <string name="goal_recommendations">Goal Recommendations</string>
+    <string name="anomaly_detection">Anomaly Detection</string>
+    <string name="run_ai_analysis">Run AI Analysis</string>
+    <string name="duplicate_detected">Duplicate Transaction Detected</string>
+    <string name="rapid_spending_detected">Rapid Spending Detected</string>
+    <string name="unusual_transaction">Unusual Transaction Detected</string>
+    <string name="recurring_pattern">Recurring Transaction Detected</string>
+    <string name="budget_efficiency_warning">Budget Efficiency Warning</string>
+    <string name="savings_goal_opportunity">Savings Goal Opportunity</string>
+    <string name="weekly_financial_summary">Weekly Financial Summary</string>
 </resources>

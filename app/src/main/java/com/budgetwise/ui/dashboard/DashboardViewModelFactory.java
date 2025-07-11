@@ -4,13 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import com.budgetwise.data.repository.BudgetRepository;
-import com.budgetwise.ml.LocalIntelligenceService;
+import com.budgetwise.ai.EnhancedIntelligenceService;
 
 public class DashboardViewModelFactory implements ViewModelProvider.Factory {
     private final BudgetRepository repository;
-    private final LocalIntelligenceService intelligenceService;
+    private final EnhancedIntelligenceService intelligenceService;
 
-    public DashboardViewModelFactory(BudgetRepository repository, LocalIntelligenceService intelligenceService) {
+    public DashboardViewModelFactory(BudgetRepository repository, EnhancedIntelligenceService intelligenceService) {
         this.repository = repository;
         this.intelligenceService = intelligenceService;
     }

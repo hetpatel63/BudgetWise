@@ -12,7 +12,8 @@ import com.budgetwise.BudgetWiseApplication;
 import com.budgetwise.R;
 import com.budgetwise.data.models.Transaction;
 import com.budgetwise.databinding.DialogAddTransactionBinding;
-import com.budgetwise.ml.LocalIntelligenceService;
+import com.budgetwise.ai.EnhancedIntelligenceService;
+import com.budgetwise.ai.DuplicateGuard;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
@@ -111,7 +112,7 @@ public class AddTransactionDialogFragment extends BottomSheetDialogFragment {
         binding.buttonAutoCategorize.setOnClickListener(v -> {
             String description = binding.editTextDescription.getText().toString().trim();
             if (!description.isEmpty()) {
-                LocalIntelligenceService intelligenceService = 
+                EnhancedIntelligenceService intelligenceService = 
                     BudgetWiseApplication.getInstance().getIntelligenceService();
                 String suggestedCategory = intelligenceService.categorizeTransaction(description);
                 
@@ -173,6 +174,8 @@ public class AddTransactionDialogFragment extends BottomSheetDialogFragment {
             default: type = Transaction.TransactionType.EXPENSE; break;
         }
 
+        // Create transaction object
+        Transaction transaction;
         if (editingTransaction != null) {
             // Update existing transaction
             editingTransaction.setDescription(description);
@@ -184,18 +187,48 @@ public class AddTransactionDialogFragment extends BottomSheetDialogFragment {
             editingTransaction.setRecurring(isRecurring);
             
             BudgetWiseApplication.getInstance().getBudgetRepository().updateTransaction(editingTransaction);
+            dismiss();
         } else {
             // Create new transaction
-            Transaction transaction = new Transaction(amount, description, category, type);
+            transaction = new Transaction(amount, description, category, type);
             transaction.setDate(selectedDate.getTime());
             transaction.setNotes(notes);
             transaction.setRecurring(isRecurring);
             
-            BudgetWiseApplication.getInstance().getBudgetRepository().addTransaction(transaction);
+            // Check for duplicates before adding
+            EnhancedIntelligenceService intelligenceService = 
+                BudgetWiseApplication.getInstance().getIntelligenceService();
+            DuplicateGuard.DuplicateCheckResult duplicateCheck = 
+                intelligenceService.checkForDuplicate(transaction);
+            
+            if (duplicateCheck.isDuplicate() && 
+                duplicateCheck.getConfidence() == DuplicateGuard.DuplicateConfidence.HIGH) {
+                // Show confirmation dialog for potential duplicate
+                showDuplicateConfirmationDialog(transaction, duplicateCheck);
+            } else {
+                // Add transaction normally
+                BudgetWiseApplication.getInstance().getBudgetRepository().addTransaction(transaction);
+                
+                // Trigger AI analysis
+                intelligenceService.runCompleteAnalysis();
+                dismiss();
+            }
         }
-
-        dismiss();
     }
+    
+    private void showDuplicateConfirmationDialog(Transaction transaction, DuplicateGuard.DuplicateCheckResult duplicateCheck) {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Possible Duplicate")
+            .setMessage(duplicateCheck.getMessage() + "\n\nDo you want to add this transaction anyway?")
+            .setPositiveButton("Add Anyway", (dialog, which) -> {
+                BudgetWiseApplication.getInstance().getBudgetRepository().addTransaction(transaction);
+                BudgetWiseApplication.getInstance().getIntelligenceService().runCompleteAnalysis();
+                dismiss();
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
 
     private boolean validateInput() {
         String description = binding.editTextDescription.getText().toString().trim();

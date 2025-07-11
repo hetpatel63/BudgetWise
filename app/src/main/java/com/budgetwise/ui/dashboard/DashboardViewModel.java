@@ -6,26 +6,26 @@ import androidx.lifecycle.ViewModel;
 import com.budgetwise.data.models.Budget;
 import com.budgetwise.data.models.Transaction;
 import com.budgetwise.data.repository.BudgetRepository;
-import com.budgetwise.ml.LocalIntelligenceService;
+import com.budgetwise.ai.EnhancedIntelligenceService;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DashboardViewModel extends ViewModel {
     private final BudgetRepository repository;
-    private final LocalIntelligenceService intelligenceService;
+    private final EnhancedIntelligenceService intelligenceService;
     
     private final MediatorLiveData<Double> totalBalance = new MediatorLiveData<>();
     private final MediatorLiveData<Double> monthlySpending = new MediatorLiveData<>();
     private final MediatorLiveData<List<Transaction>> recentTransactions = new MediatorLiveData<>();
 
-    public DashboardViewModel(BudgetRepository repository, LocalIntelligenceService intelligenceService) {
+    public DashboardViewModel(BudgetRepository repository, EnhancedIntelligenceService intelligenceService) {
         this.repository = repository;
         this.intelligenceService = intelligenceService;
         
         setupMediators();
         
         // Trigger analysis
-        intelligenceService.analyzeSpendingPatterns();
+        intelligenceService.runCompleteAnalysis();
     }
 
     private void setupMediators() {
