@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Material Design 3 Theme Colors -->
     <color name="seed">#6750A4</color>
+    
+    <!-- Light Theme -->
     <color name="md_theme_light_primary">#6750A4</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#EADDFF</color>
@@ -32,6 +35,7 @@
     <color name="md_theme_light_shadow">#000000</color>
     <color name="md_theme_light_surfaceTint">#6750A4</color>
     
+    <!-- Dark Theme -->
     <color name="md_theme_dark_primary">#D0BCFF</color>
     <color name="md_theme_dark_onPrimary">#381E72</color>
     <color name="md_theme_dark_primaryContainer">#4F378B</color>
@@ -63,7 +67,7 @@
     <color name="md_theme_dark_shadow">#000000</color>
     <color name="md_theme_dark_surfaceTint">#D0BCFF</color>
     
-    <!-- Custom colors -->
+    <!-- Custom App Colors -->
     <color name="success_green">#38A169</color>
     <color name="success_green_light">#81C784</color>
     <color name="success_green_dark">#388E3C</color>
@@ -77,7 +81,7 @@
     <color name="info_blue_light">#42A5F5</color>
     <color name="info_blue_dark">#1976D2</color>
     
-    <!-- Gradient colors -->
+    <!-- Gradient Colors -->
     <color name="gradient_start">#667eea</color>
     <color name="gradient_end">#764ba2</color>
     <color name="income_gradient_start">#11998e</color>
@@ -85,11 +89,9 @@
     <color name="expense_gradient_start">#fc4a1a</color>
     <color name="expense_gradient_end">#f7b733</color>
     
-    <!-- Shimmer colors -->
+    <!-- UI Colors -->
     <color name="shimmer_base">#F0F0F0</color>
     <color name="shimmer_highlight">#FFFFFF</color>
-    
-    <!-- Card colors -->
     <color name="card_background_light">#FFFFFF</color>
     <color name="card_background_dark">#1E1E1E</color>
     <color name="card_shadow">#1A000000</color>
