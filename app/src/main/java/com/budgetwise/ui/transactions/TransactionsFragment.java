@@ -38,10 +38,26 @@ public class TransactionsFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        adapter = new TransactionAdapter(transaction -> {
-            // Handle transaction click - open edit dialog
-            AddTransactionDialogFragment dialog = AddTransactionDialogFragment.newInstance(transaction);
-            dialog.show(getParentFragmentManager(), "edit_transaction");
+        adapter = new TransactionAdapter(new TransactionAdapter.OnTransactionClickListener() {
+            @Override
+            public void onTransactionClick(com.budgetwise.data.models.Transaction transaction) {
+                // Handle transaction click - open edit dialog
+                AddTransactionDialogFragment dialog = AddTransactionDialogFragment.newInstance(transaction);
+                dialog.show(getParentFragmentManager(), "edit_transaction");
+            }
+            
+            @Override
+            public void onTransactionEdit(com.budgetwise.data.models.Transaction transaction) {
+                // Handle edit button click - open edit dialog
+                AddTransactionDialogFragment dialog = AddTransactionDialogFragment.newInstance(transaction);
+                dialog.show(getParentFragmentManager(), "edit_transaction");
+            }
+            
+            @Override
+            public void onTransactionDelete(com.budgetwise.data.models.Transaction transaction) {
+                // Handle delete button click - show confirmation dialog
+                showDeleteConfirmationDialog(transaction);
+            }
         });
         
         binding.recyclerViewTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -78,6 +94,27 @@ public class TransactionsFragment extends Fragment {
             binding.layoutEmptyState.setVisibility(View.GONE);
             binding.recyclerViewTransactions.setVisibility(View.VISIBLE);
         }
+    }
+    
+    private void showDeleteConfirmationDialog(com.budgetwise.data.models.Transaction transaction) {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Delete Transaction")
+            .setMessage("Are you sure you want to delete this transaction?\n\n" + 
+                       transaction.getDescription() + "\n" +
+                       String.format("$%.2f", transaction.getAmount()))
+            .setPositiveButton("Delete", (dialog, which) -> {
+                BudgetWiseApplication.getInstance().getBudgetRepository().deleteTransaction(transaction.getId());
+                com.google.android.material.snackbar.Snackbar.make(binding.getRoot(), 
+                    "Transaction deleted", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT)
+                    .setAction("Undo", v -> {
+                        // Re-add the transaction (undo functionality)
+                        BudgetWiseApplication.getInstance().getBudgetRepository().addTransaction(transaction);
+                    })
+                    .show();
+            })
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show();
     }
 
     @Override

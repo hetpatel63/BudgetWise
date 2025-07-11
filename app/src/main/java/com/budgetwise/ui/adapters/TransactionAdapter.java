@@ -17,6 +17,8 @@ public class TransactionAdapter extends ListAdapter<Transaction, TransactionAdap
 
     public interface OnTransactionClickListener {
         void onTransactionClick(Transaction transaction);
+        void onTransactionEdit(Transaction transaction);
+        void onTransactionDelete(Transaction transaction);
     }
 
     public TransactionAdapter(OnTransactionClickListener clickListener) {
@@ -64,6 +66,22 @@ public class TransactionAdapter extends ListAdapter<Transaction, TransactionAdap
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && clickListener != null) {
                     clickListener.onTransactionClick(getItem(position));
+                }
+            });
+            
+            // Edit button click handler
+            binding.buttonEdit.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener.onTransactionEdit(getItem(position));
+                }
+            });
+            
+            // Delete button click handler
+            binding.buttonDelete.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && clickListener != null) {
+                    clickListener.onTransactionDelete(getItem(position));
                 }
             });
         }
